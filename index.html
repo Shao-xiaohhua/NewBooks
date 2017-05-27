@@ -29,7 +29,7 @@
     color: white;
     text-align: center;
     line-height: 44px;
-    z-index: 999999;
+    z-index: 9999999999999999999999999999999999999999999999;
   }
   .titleFormTwo::after {
     position: absolute;
@@ -63,7 +63,7 @@
     height: 43px;
     background: #ee7f09;
     transition: all .3s ease;
-    border-bottom: 1px solid #ee7f09;
+    border-bottom: 1px solid #44a834;
     z-index: 888;
   }
   .titleConet input {
@@ -80,40 +80,60 @@
   .titleConet.active {
     top: 44px
   }
-  .titleConet .done {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: 60px;
-    height: 100%;
-    background: #4871f7;
-    text-align: center;
-    line-height: 40px;
-    color: white;
-    transition-delay: 2s;
-    transition: all .3s ease;
-  }
-  .titleConet .done.active {
-    bottom: -44px;
-  }
   .pull {
     width: 50%;
     height: 100%;
     float: right;
     box-sizing: border-box;
-    background: #ee7f09;
+    padding-left: 10px;
+    background: #44a834;
     color: white;
-    text-align: center;
     line-height: 43px;
     border: none;
     font-size: 16px;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+  }
+  .Anumber {
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+    color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 999999999999999999999; 
+  }
+  .titAnumber {
+    position: absolute;
+    top: 0;
+    left: 0; 
+    width: 100%;
+    height: 44px;
+    background: red;
+    z-index: 6666666;
+    transition: all .3s ease;
+  }
+  .titAnumber.active {
+    top: 44px;
+  }
+  .titAnumber input {
+    height: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    line-height: 44px;
+    border: none;
+    border: 1px solid #44a834;
   }
 </style>
 <body>
 <div class="titleConet">
-  <div class="done">完成</div>
   <input type="text">
   <select class="pull"> 
     <option value="购物">购物</option> 
@@ -122,7 +142,11 @@
     <option value="生活">生活</option> 
   </select> 
 </div>
+<div class="titAnumber">
+  <input type="text" placeholder="总可花费额度">
+</div>
 <div class="titleFormTwo"><span>月生活费用数据</span></div>
+<div class="Anumber">$</div>
 <div id="two"></div>
 <div id="three"></div>
 <script src="echarts.min.js"></script>
@@ -194,7 +218,7 @@
       {
         name: '访问来源',
         type: 'pie',
-        radius: '70%',
+        radius: '50%',
         roseType: 'angle',//是否为男丁格尔图
         data: pieArr
       }
@@ -307,28 +331,59 @@
           localStorage.dd = JSON.stringify([{number: 0, allNumber: 0}]);
         }
       }
+      var  loArr = JSON.parse(localStorage.cc);
+      document.querySelector('.Anumber').onclick = function () {
+        document.querySelector('.titleConet').setAttribute('class', 'titleConet');
+        document.querySelector('.titleFormTwo').setAttribute('class', 'titleFormTwo');
+        if (document.querySelector('.titAnumber').getAttribute('class') === 'titAnumber') {
+          document.querySelector('.titAnumber').setAttribute('class', 'titAnumber active');
+        } else {
+          document.querySelector('.titAnumber').setAttribute('class', 'titAnumber');
+        }
+        if (localStorage.theAN) {
+          document.querySelector('.titAnumber input').value = JSON.parse(localStorage.theAN)[0].numb;
+        }
+      }
 
      document.querySelector('.titleFormTwo').onclick = function () {
+      document.querySelector('.titAnumber').setAttribute('class', 'titAnumber');
       var cone = document.querySelector('.titleConet');
       if (cone.getAttribute('class') === 'titleConet') {
-        this.setAttribute('class', 'titleFormTwo active')
-        cone.setAttribute('class', 'titleConet active')
-        document.querySelector('.done').setAttribute('class', 'done active')
+        this.setAttribute('class', 'titleFormTwo active');
+        cone.setAttribute('class', 'titleConet active');
       } else if (cone.getAttribute('class') === 'titleConet active') {
-        this.setAttribute('class', 'titleFormTwo')
-        cone.setAttribute('class', 'titleConet')
-        document.querySelector('.done').setAttribute('class', 'done')
+        this.setAttribute('class', 'titleFormTwo');
+        cone.setAttribute('class', 'titleConet');
       }
      }
 
-    document.querySelector('.done').onclick = function () {
-      this.setAttribute('class', 'done');
+      document.querySelector('.titAnumber input').onblur = function () {
+        document.querySelector('.titAnumber').setAttribute('class', 'titAnumber');
+        if (this.value) {
+        let valeNumber = [{numb: parseInt(this.value)}];
+        localStorage.theAN = '';
+        localStorage.theAN = JSON.stringify(valeNumber);
+        if (localStorage.dd) {
+          let len = loArr.length;
+          let numTwo = 0;
+          for(var i = 0; i < len; i ++) {
+            numTwo += loArr[i].value;
+          }
+          let lonum = [{number: numTwo/(parseInt(this.value))*100, allNumber: numTwo}];
+          localStorage.dd = JSON.stringify(lonum);
+          threeOption.series[0].data[0].value = lonum[0].number;
+          three.setOption (threeOption, true);
+        }
+        }
+      }
+
+    document.querySelector('.titleConet input').onblur = function () {
       document.querySelector('.titleConet').setAttribute('class', 'titleConet');
       document.querySelector('.titleFormTwo').setAttribute('class', 'titleFormTwo');
 
       var name =  document.querySelector('.pull').value;
       var number = document.querySelector('.titleConet input').value;
-      var  loArr = JSON.parse(localStorage.cc);
+      
       var num;
       if (name === '购物' && number) {
         num = parseInt(loArr[0].value) + parseInt(number);
@@ -372,7 +427,13 @@
       for(var i = 0; i < len; i ++) {
         numTwo += loArr[i].value;
       }
-      let lonum = [{number: numTwo/5000*100, allNumber: numTwo}];
+      let anUna;
+      if (localStorage.theAN) {
+        anUna = JSON.parse(localStorage.theAN)[0].numb;
+      } else {
+        anUna = 0;
+      }
+      let lonum = [{number: numTwo/anUna*100, allNumber: numTwo}];
       localStorage.dd = JSON.stringify(lonum);
       threeOption.series[0].data[0].value = lonum[0].number;
       three.setOption (threeOption, true);
