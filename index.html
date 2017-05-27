@@ -313,7 +313,41 @@
   three.setOption (threeOption);
 
     window.onload = function () {
-     
+     var time = new Date();
+     var swit;
+     var theW
+     if (localStorage.sw) {
+       theW = JSON.parse(localStorage.sw)[0].sw;
+    } else {
+      swit = [{sw: true}];
+      localStorage.sw = JSON.stringify(swit);
+    }
+           if (time.getDate() === 1) {
+            if (theW) {
+              swit = [{sw: false}];
+              localStorage.sw = JSON.stringify(swit);
+              if (localStorage.cc && localStorage.dd) {
+                localStorage.cc = JSON.stringify(pieArr);
+                localStorage.dd = JSON.stringify([{number: 0, allNumber: 0}]);
+              }
+          }
+        } else {
+          swit = [{sw: true}];
+          localStorage.sw = JSON.stringify(swit);
+        }
+
+  //     function getFirstAndLastMonthDay( year, month){    
+  //              var   firstdate = year + '-' + month + '-01';  
+  //              var  day = new Date(year,month,0);   
+  //              var lastdate = day.getDate();//获取当月最后一天日期    
+  // //给文本控件赋值。同下  
+  //              return lastdate;  
+  //           } 
+  //           if (getFirstAndLastMonthDay(2017, 5) === time.getDate()) {
+  //             swit = [{sw: true}];
+  //             localStorage.sw = JSON.stringify(swit);
+  //           } 
+  //           console.log(time.getDate())
     var theArr;
     if (localStorage.cc) {
       theArr = JSON.parse(localStorage.cc);
@@ -324,19 +358,12 @@
     }
 
     let aN = localStorage.dd?JSON.parse(localStorage.dd)[0].allNumber: 0;
-    var time = new Date();
+    
     var m = time.getMonth() + 1;
     var t = time.getFullYear() + "-" + m + "-"
      + time.getDate() + '---'+aN+'元人民币'
      document.querySelector('.titleFormTwo span').innerHTML = t;
 
-
-      if (time.getDate() === 1) {
-        if (localStorage.cc && localStorage.dd) {
-          localStorage.cc = JSON.stringify(pieArr);
-          localStorage.dd = JSON.stringify([{number: 0, allNumber: 0}]);
-        }
-      }
       var  loArr = JSON.parse(localStorage.cc);
       document.querySelector('.Anumber').onclick = function () {
         document.querySelector('.titleConet').setAttribute('class', 'titleConet');
