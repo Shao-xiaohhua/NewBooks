@@ -133,6 +133,17 @@
     border: none;
     border: 1px solid #44a834;
   }
+  .clearTo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 88px;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 <body>
 <div class="titleConet">
@@ -151,6 +162,7 @@
 <div class="Anumber">$</div>
 <div id="two"></div>
 <div id="three"></div>
+<div class="clearTo">清零</div>
 <script src="echarts.min.js"></script>
 <script type="text/javascript">
   var two = document.querySelector('#two');
@@ -473,6 +485,17 @@
     if (localStorage.dd) {
       threeOption.series[0].data[0].value = JSON.parse(localStorage.dd)[0].number;
       three.setOption (threeOption, true);
+    }
+    document.querySelector('.clearTo').onclick = function () {
+      if (localStorage.cc && localStorage.dd) {
+        localStorage.cc = JSON.stringify(pieArr);
+        localStorage.dd = JSON.stringify([{number: 0, allNumber: 0}])
+        theArr = JSON.parse(localStorage.cc);
+        twoOption.series[0].data = theArr;
+        two.setOption (twoOption);
+        threeOption.series[0].data[0].value = JSON.parse(localStorage.dd)[0].number;
+        three.setOption (threeOption, true);
+      }
     }
   }
 </script>
