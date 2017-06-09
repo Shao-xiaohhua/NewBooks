@@ -501,5 +501,16 @@
     }
   }
 </script>
+<script src="jquery-1.11.3.js"></script>
+<script>
+  $(function () {
+    $.ajax({
+      url:'http://http://zhangbenserver.duapp.com/text',
+      data: {number: 1},
+      dataType:'jsonp'
+    }).done(function (data){
+    });
+  });
+</script>
 </body>
 </html>
