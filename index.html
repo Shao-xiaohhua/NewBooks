@@ -403,7 +403,7 @@
 
       document.querySelector('.titAnumber input').onblur = function () {
         document.querySelector('.titAnumber').setAttribute('class', 'titAnumber');
-        if (this.value) {
+        if (this.value && !isNaN(this.value)) {
         let valeNumber = [{numb: parseInt(this.value)}];
         localStorage.theAN = '';
         localStorage.theAN = JSON.stringify(valeNumber);
@@ -418,6 +418,8 @@
           threeOption.series[0].data[0].value = lonum[0].number;
           three.setOption (threeOption, true);
         }
+        } else {
+          alert('请输入数字');
         }
       }
 
@@ -429,7 +431,8 @@
       var number = document.querySelector('.titleConet input').value;
       
       var num;
-      if (name === '购物' && number) {
+      if (!isNaN(number)) {
+              if (name === '购物' && number) {
         num = parseInt(loArr[0].value) + parseInt(number);
         loArr[0].value = num
         loArr[0].name = '购物('+num+')';
@@ -466,6 +469,10 @@
         document.querySelector('.titleConet input').value = '';
         num = 0;
       }
+    } else {
+      alert('请输入数字');
+    }
+
       let len = loArr.length;
       let numTwo = 0;
       for(var i = 0; i < len; i ++) {
