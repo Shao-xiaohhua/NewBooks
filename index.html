@@ -168,20 +168,6 @@
 <script src="echarts.min.js"></script>
 <script src="jquery-1.11.3.js"></script>
 <script type="text/javascript">
-      function xssCheck(str,reg){
-        return str ? str.replace(reg ||/[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g,function (a, b) {
-          if(b){
-            return a;
-          }else{
-            return{
-              '<':'&lt;',
-              '&':'&amp;',
-              '"':'&quot;',
-              '>':'&gt;'
-            }[a]
-          }
-        }): '';
-      };
   var two = document.querySelector('#two');
   var three = document.querySelector('#three');
   three.style.height = two.clientWidth + 'px';
