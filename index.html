@@ -432,7 +432,7 @@
       
       var num;
       if (!isNaN(number)) {
-              if (name === '购物' && number) {
+      if (name === '购物' && number) {
         num = parseInt(loArr[0].value) + parseInt(number);
         loArr[0].value = num
         loArr[0].name = '购物('+num+')';
@@ -471,6 +471,7 @@
       }
     } else {
       alert('请输入数字');
+      document.querySelector('.titleConet input').value = '';
     }
 
       let len = loArr.length;
